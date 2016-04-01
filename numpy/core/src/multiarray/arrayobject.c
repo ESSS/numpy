@@ -880,7 +880,10 @@ _mystrncmp(char *s1, char *s2, int len1, int len2)
 
 #define SMALL_STRING 2048
 
-#if defined(isspace)
+/* defined(_WIN32) below is because MSVC "isspace" crashes with an assert on
+   debug when the character is not ASCII
+*/
+#if defined(isspace) || defined(_WIN32)
 #undef isspace
 #define isspace(c)  ((c==' ')||(c=='\t')||(c=='\n')||(c=='\r')||(c=='\v')||(c=='\f'))
 #endif
