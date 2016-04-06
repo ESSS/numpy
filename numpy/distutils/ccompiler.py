@@ -184,6 +184,11 @@ def CCompiler_compile(self, sources, output_dir=None, macros=None,
             self._setup_compile(output_dir, macros, include_dirs, sources,
                                 depends, extra_postargs)
     cc_args = self._get_cc_args(pp_opts, debug, extra_preargs)
+
+    # ifort does not accept "-g" flag
+    if isinstance(self, FCompiler):
+        cc_args = ['/debug' if a == '-g' else a for a in cc_args]
+
     display = "compile options: '%s'" % (' '.join(cc_args))
     if extra_postargs:
         display += "\nextra options: '%s'" % (' '.join(extra_postargs))
