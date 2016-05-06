@@ -171,6 +171,9 @@ class TestSystemInfoReading(TestCase):
         extra = tsi.calc_extra_info()
         assert_equal(extra['extra_link_args'], ['-Wl,-rpath=' + self._lib2])
 
+    # ESSS disabled test because of:
+    # CompileError: Command "cc -c foo.c -o /tmp/.../foo.o" failed with exit status 127
+    @skipif('unix' in repr(ccompiler.new_compiler()))
     def test_compile1(self):
         # Compile source and link the first source
         c = ccompiler.new_compiler()
@@ -186,6 +189,9 @@ class TestSystemInfoReading(TestCase):
         except OSError:
             pass
 
+    # ESSS disabled test because of:
+    # CompileError: Command "cc -c bar.c -o /tmp/.../bar.o -Wl,-rpath=/tmp/.../libbar.so" failed with exit status 127
+    @skipif('unix' in repr(ccompiler.new_compiler()))
     @skipif('msvc' in repr(ccompiler.new_compiler()))
     def test_compile2(self):
         # Compile source and link the second source
